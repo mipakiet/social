@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="container">
+    <h1 class="">{{post.title}}</h1>
+    <p class="">
+      <small class="text-muted">{{post.pub_date}} | {{post.author}}</small>
+    </p>
+    <p class="-text">{{post.text}}</p>
+    <p class=""><small class="text-muted">{{post.number_of_likes}} likes {{post.number_of_comments}} comments</small></p>
+    {% if user.is_authenticated %}
+      {% if post_is_liked %}
+      <a href="{% url 'like_post' post.id %}" class="btn btn-primary">Unlike</a>
+      {% else %}
+      <a href="{% url 'like_post' post.id %}" class="btn btn-primary">Like</a>
+      {% endif %}
+    <a href="{% url 'delete_post' post.id %}" class="btn btn-danger">Delete</a>
+    {% endif %}
+  <hr class="hr" />
+
+  <h3>Comments:</h3>
+  {% for comment in comment_objects %}
+  <div class="">
+      <p class="">
+        <small class="text-muted">{{comment.pub_date}} | {{comment.author}}</small>
+        <br>
+        {{comment.text}}
+      </p>
+  </div>
+  {% endfor %}
+  <form method="POST" class="post-form">
+    {% csrf_token %}
+    {% bootstrap_form comment_form %}
+    <button type="submit" class="btn btn-primary">Comment</button>
+  </form>
+
+</div>
+{% endblock %}
