@@ -6,7 +6,7 @@
 <div class="container">
     <h1 class="">{{post.title}}</h1>
     <p class="">
-      <small class="text-muted">{{post.pub_date}} | {{post.author}}</small>
+      <small class="text-muted">{{post.pub_date}} | <a href="{% url 'profile' post.author.id %}">{{post.author}}</a></small>
     </p>
     <p class="-text">{{post.text}}</p>
     <p class=""><small class="text-muted">{{post.number_of_likes}} likes {{post.number_of_comments}} comments</small></p>
@@ -30,11 +30,12 @@
       </p>
   </div>
   {% endfor %}
+  {% if user.is_authenticated %}
   <form method="POST" class="post-form">
     {% csrf_token %}
     {% bootstrap_form comment_form %}
     <button type="submit" class="btn btn-primary">Comment</button>
   </form>
-
+  {% endif %}
 </div>
 {% endblock %}

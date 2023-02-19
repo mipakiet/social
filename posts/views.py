@@ -45,6 +45,13 @@ def posts(request):
     return render(request, "posts.html", context)
 
 
+def user_posts(user_id):
+
+    posts_objects = Post.objects.filter(author__id=user_id)
+
+    return posts_objects
+
+
 @login_required
 def add_post(request):
     if request.method == 'POST':

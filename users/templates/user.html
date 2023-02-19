@@ -1,10 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <div class="card mb-3">
+    <div class="row g-0">
+      <div class="col-md-4 ">
+        <img src="{{user_profile.socialuser.photo.url}}" class="rounded-start" width="400" height="300" >
+      </div>
+      <div class="col-md-8 text-bg-dark">
+        <div class="card-body m-5">
+          <h1 class="display-4 fst-italic">{{user_profile.username}}</h1>
+          <p class="card-text">{{user_profile.socialuser.bio}}</p>
+          <p class="card-text"><small class="text-muted">Some goo tex to fill with something</small></p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-</body>
-</html>
+    <h3>Posts:</h3>
+    <hr class="hr" />
+    {% for post in posts %}
+      <div class="card m-3">
+        <div class="card-body">
+          <h5 class="card-title">{{post.title}}</h5>
+          <p class="card-text">
+            <small class="text-muted">{{post.pub_date}} | {{post.author}}</small>
+          </p>
+          <p class="card-text">{{post.text}}</p>
+          <p class="card-text"><small class="text-muted">{{post.number_of_likes}} likes {{post.number_of_comments}} comments</small></p>
+          <a href="{% url 'post' post.id %}" class="btn btn-primary">Read more</a>
+        </div>
+      </div>
+  {% endfor %}
+</div>
+{% endblock %}
